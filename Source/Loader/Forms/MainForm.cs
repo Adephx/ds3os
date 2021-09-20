@@ -81,12 +81,13 @@ namespace Loader
                 LaunchEnabled = false;
             }
 
-            if (!SteamUtils.IsSteamRunningAndLoggedIn())
-            {
-                LaunchEnabled = false;
-                LaunchButton.Text = "Not Logged Into Steam";
-            }
-            else if (RunningProcessHandle != IntPtr.Zero)
+            //if (!SteamUtils.IsSteamRunningAndLoggedIn())
+            //{
+            //    LaunchEnabled = false;
+            //    LaunchButton.Text = "Not Logged Into Steam";
+            //}
+            
+            if (RunningProcessHandle != IntPtr.Zero)
             {
                 LaunchEnabled = false;
                 LaunchButton.Text = "Running ...";
