@@ -110,7 +110,7 @@ namespace Loader
 
                 foreach (ListViewItem ViewItem in ImportedServerListView.Items)
                 {
-                    if ((string)ViewItem.Tag == Config.IpAddress)
+                    if ((string)ViewItem.Tag == Config.Hostname)
                     {
                         ServerItem = ViewItem;
                         break;
@@ -124,11 +124,24 @@ namespace Loader
                 }
 
                 ServerItem.Text = Config.Name;
-                ServerItem.Tag = Config.IpAddress;
+                ServerItem.Tag = Config.Hostname;
                 ServerItem.SubItems[0].Text = Config.Name;
                 ServerItem.SubItems[1].Text = Config.ManualImport ? "Not Advertised" : Config.PlayerCount.ToString();
                 ServerItem.SubItems[2].Text = Config.Description;
-                ServerItem.ImageIndex = Config.PasswordRequired ? 0 : -1;
+
+                if (Config.PasswordRequired)
+                {
+                    ServerItem.ImageIndex = 0;
+                }
+                else if (Config.ManualImport)
+                {
+                    ServerItem.ImageIndex = 7;
+                }
+                else
+                {
+                    ServerItem.ImageIndex = 8;
+                }
+                
             }
 
             for (int i = 0; i < ImportedServerListView.Items.Count; /* empty */)
@@ -138,7 +151,7 @@ namespace Loader
                 bool Exists = false;
                 foreach (ServerConfig Config in ServerList.Servers)
                 {
-                    if (Config.IpAddress == (string)ViewItem.Tag)
+                    if (Config.Hostname == (string)ViewItem.Tag)
                     {
                         Exists = true;
                         break;
@@ -266,6 +279,7 @@ namespace Loader
 
         private void ProcessServerQueryResponse(List<ServerConfig> Servers)
         {
+            // Add new entries.
             foreach (ServerConfig Server in Servers)
             {
                 bool Exists = false;
@@ -285,9 +299,47 @@ namespace Loader
                 }
             }
 
+            // Remove duplicates
+            for (int i = 0; i < ServerList.Servers.Count; /* empty */)
+            {
+                ServerConfig Server1 = ServerList.Servers[i];
+
+                bool Duplicate = false;
+                for (int j = 0; j < ServerList.Servers.Count; j++)
+                {
+                    ServerConfig Server2 = ServerList.Servers[j];
+
+                    if (i == j)
+                    {
+                        continue;
+                    }
+
+                    if (Server1.Hostname == Server2.Hostname)
+                    {
+                        Duplicate = true;
+                        break;
+                    }
+                }
+
+                if (Duplicate)
+                {
+                    ServerList.Servers.RemoveAt(i);
+                }
+                else
+                {
+                    i++;
+                }
+            }
+
+            // Remove servers that no longer exist.
             for (int i = 0; i < ServerList.Servers.Count; /* empty */)
             {
                 ServerConfig ExistingServer = ServerList.Servers[i];
+                if (ExistingServer.ManualImport)
+                {
+                    i++;
+                    continue;
+                }
 
                 bool Exists = false;
                 foreach (ServerConfig Server in Servers)
@@ -486,6 +538,15 @@ namespace Loader
         private void OnRefreshClicked(object sender, EventArgs e)
         {
             QueryServers();
+        }
+
+        private void ClickGithubLink(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://github.com/tleonarduk/ds3os",
+                UseShellExecute = true
+            });
         }
     }
 }

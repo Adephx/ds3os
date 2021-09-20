@@ -12,7 +12,7 @@ Idealistically made for the purpose of allow better alternatives to playing mods
 # Can I use it with a pirated game?
 No, the server authenticates steam tickets. Please do not ask about piracy, steam emulators or the like, we have no interest in supporting them. 
 
-FROM SOFTWARE deserves you support too for the excellent work they do, please buy their games if you can.
+FROM SOFTWARE deserves your support too for the excellent work they do, please buy their games if you can.
 
 # Where can I download it?
 Downloads are available on the github releases page - https://github.com/TLeonardUK/ds3os/releases
@@ -104,3 +104,9 @@ https://github.com/garyttierney/ds3-open-re
 https://github.com/Jellybaby34/DkS3-Server-Emulator-Rust-Edition
 
 https://github.com/AmirBohd/ModEngine2
+
+Graphics and icons provided by:
+
+Campfire icon made by ultimatearm from www.flaticon.com
+
+Various UI icons made by Mark James from http://www.famfamfam.com/lab/icons/silk/
