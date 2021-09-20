@@ -86,48 +86,48 @@ namespace Loader
             return "";
         }
 
-        public static bool IsSteamRunningAndLoggedIn()
-        {
-            object? ActiveUserValue = Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Valve\Steam\ActiveProcess", "ActiveUser", 0);
-            object? ActivePidValue = Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Valve\Steam\ActiveProcess", "pid", 0);
-            if (ActiveUserValue == null || ActiveUserValue is not int)
-            {
-                return false;
-            }
-            if (ActivePidValue == null || ActivePidValue is not int)
-            {
-                return false;
-            }
+        //public static bool IsSteamRunningAndLoggedIn()
+        //{
+        //    object? ActiveUserValue = Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Valve\Steam\ActiveProcess", "ActiveUser", 0);
+        //    object? ActivePidValue = Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Valve\Steam\ActiveProcess", "pid", 0);
+        //    if (ActiveUserValue == null || ActiveUserValue is not int)
+        //    {
+        //        return false;
+        //    }
+        //    if (ActivePidValue == null || ActivePidValue is not int)
+        //    {
+        //        return false;
+        //    }
 
-            if (((int)ActiveUserValue) == 0)
-            {
-                return false;
-            }
+        //    if (((int)ActiveUserValue) == 0)
+        //    {
+        //        return false;
+        //    }
 
-            int Pid = (int)ActivePidValue;
-            if (Pid == 0)
-            {
-                return false;
-            }
+        //    int Pid = (int)ActivePidValue;
+        //    if (Pid == 0)
+        //    {
+        //        return false;
+        //    }
 
-            try
-            {
-                Process proc = Process.GetProcessById(Pid);
-                if (proc == null || proc.HasExited)
-                {
-                    return false;
-                }
-            }
-            catch (InvalidOperationException) 
-            { 
-                return false; 
-            }
-            catch (ArgumentException) 
-            { 
-                return false; 
-            }
+        //    try
+        //    {
+        //        Process proc = Process.GetProcessById(Pid);
+        //        if (proc == null || proc.HasExited)
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    catch (InvalidOperationException) 
+        //    { 
+        //        return false; 
+        //    }
+        //    catch (ArgumentException) 
+        //    { 
+        //        return false; 
+        //    }
 
-            return true;
-        }
+        //    return true;
+        //}
     }
 }
